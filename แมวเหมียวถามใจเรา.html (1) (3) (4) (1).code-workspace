@@ -1,8 +1,147 @@
-{
-	"folders": [
-		{
-			"path": "D:/404_32"
-		}
-	],
-	"settings": {}
-}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แมวเหมียวถามใจเรา</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-image: url('sea.jpg');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: rgba(250, 255, 222, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      color: #000;
+    }
+    h1 {
+      text-align: center;
+      color: #000;
+    }
+    .question p {
+      color: #000;
+    }
+    .options label {
+      display: block;
+      margin: 5px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(238,238,255,0.9);
+      border-radius: 8px;
+      font-weight: bold;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐱 แมวเหมียวถามใจเรา 🐱</h1>
+    <p>คำชี้แจง: กรุณาตอบตามความจริงในช่วง 2 สัปดาห์ที่ผ่านมา</p>
+
+    <form id="quizForm">
+      <div id="questions"></div>
+      <button type="submit">ส่งคำตอบ</button>
+    </form>
+
+    <div class="result" id="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+      "1. เบื่อ ทำอะไร ๆ ก็ไม่เพลิดเพลิน",
+      "2. รู้สึกซึมเศร้า หดหู่ หรือท้อแท้",
+      "3. หลับยาก หลับไม่สนิท หรือหลับมากเกินไป",
+      "4. เหนื่อยง่าย หรือไม่ค่อยมีแรง",
+      "5. เบื่ออาหาร หรือกินมากเกินไป",
+      "6. รู้สึกแย่กับตนเอง คิดว่าตัวเองล้มเหลว หรือทำให้ครอบครัวผิดหวัง",
+      "7. สมาธิไม่ดีเวลาทำอะไร เช่น อ่านหนังสือ ดูทีวี",
+      "8. พูดช้า ทำอะไรช้าลงจนคนอื่นสังเกตเห็น หรือกระสับกระส่าย อยู่ไม่สุข",
+      "9. คิดทำร้ายตนเอง หรือคิดว่าถ้าตายไปคงจะดีกว่า"
+    ];
+
+    const options = [
+      {text: "ไม่มีเลย", value: 0},
+      {text: "เป็นบางวัน (1-7 วัน)", value: 1},
+      {text: "เป็นบ่อย (มากกว่า 7 วัน)", value: 2},
+      {text: "เป็นแทบทุกวัน", value: 3}
+    ];
+
+    const qContainer = document.getElementById("questions");
+
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<p>${q}</p>`;
+      const optDiv = document.createElement("div");
+      optDiv.classList.add("options");
+      options.forEach((opt) => {
+        optDiv.innerHTML += `
+          <label>
+            <input type="radio" name="q${i}" value="${opt.value}" required>
+            ${opt.text}
+          </label>
+        `;
+      });
+      div.appendChild(optDiv);
+      qContainer.appendChild(div);
+    });
+
+    document.getElementById("quizForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let score = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const val = document.querySelector(`input[name="q${i}"]:checked`).value;
+        score += parseInt(val);
+      }
+
+      let level = "";
+      if (score <= 4) level = "ไม่มีหรือเกือบไม่มีภาวะซึมเศร้า";
+      else if (score <= 9) level = "ภาวะซึมเศร้าเล็กน้อย";
+      else if (score <= 14) level = "ภาวะซึมเศร้าปานกลาง";
+      else if (score <= 19) level = "ภาวะซึมเศร้าค่อนข้างรุนแรง";
+      else level = "ภาวะซึมเศร้ารุนแรงมาก";
+
+      const resultBox = document.getElementById("result");
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `
+        คะแนนรวมของคุณคือ: <strong>${score}/27</strong><br>
+        ผลการประเมินเบื้องต้น: <strong>${level}</strong><br><br>
+        ⚠️ หมายเหตุ: ผลนี้เป็นการคัดกรองเบื้องต้น ไม่ใช่การวินิจฉัยโรค<br>
+        หากมีความคิดทำร้ายตัวเอง ควรรีบปรึกษาแพทย์หรือสายด่วนสุขภาพจิต <strong>1323</strong> ทันที
+      `;
+    });
+  </script>
+</body>
+</html>
