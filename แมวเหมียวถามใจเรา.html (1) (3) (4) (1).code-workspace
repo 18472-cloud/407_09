@@ -2,11 +2,13 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>แมวถามใจเรา</title>
+  <title>แมวเหมียวถามใจเรา</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background: #f9f9f9;
+      background-image: url('./images/sea.jpg'); /* ✅ ต้องมีไฟล์อยู่ในโฟลเดอร์ images */
+      background-size: cover;
+      background-position: center;
       margin: 0;
       padding: 20px;
       line-height: 1.6;
@@ -14,17 +16,18 @@
     .container {
       max-width: 700px;
       margin: auto;
-      background: white;
+      background: rgba(250, 255, 222, 0.9);
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      color: #000;
     }
     h1 {
       text-align: center;
-      color: #444;
+      color: #000;
     }
-    .question {
-      margin: 15px 0;
+    .question p {
+      color: #000;
     }
     .options label {
       display: block;
@@ -33,6 +36,8 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       cursor: pointer;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
     }
     .options input {
       margin-right: 10px;
@@ -53,15 +58,16 @@
     .result {
       margin-top: 20px;
       padding: 15px;
-      background: #eef;
+      background: rgba(238,238,255,0.9);
       border-radius: 8px;
       font-weight: bold;
+      color: #000;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🐱 แมวถามใจเรา</h1>
+    <h1>🐱 แมวเหมียวถามใจเรา 🐱</h1>
     <p>คำชี้แจง: กรุณาตอบตามความจริงในช่วง 2 สัปดาห์ที่ผ่านมา</p>
 
     <form id="quizForm">
@@ -116,7 +122,7 @@
       e.preventDefault();
       let score = 0;
       for (let i = 0; i < questions.length; i++) {
-        const val = document.querySelector(`input[name="q${i}"]:checked`).value;
+        const val = document.querySelector(\`input[name="q\${i}"]:checked\`).value;
         score += parseInt(val);
       }
 
