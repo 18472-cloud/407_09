@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background-image: url('./images/sea.jpg'); /* ✅ ต้องมีไฟล์อยู่ในโฟลเดอร์ images */
+      background-image: url('./images/sea.jpg'); 
       background-size: cover;
       background-position: center;
       margin: 0;
